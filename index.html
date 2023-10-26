@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Page Builder</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap">
+    <style>
+        /* Your existing CSS styles here */
+
+        /* Additional styles for the form */
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        form input,
+        form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        form button {
+            background-color: #ff6b6b;
+            color: #fff;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            outline: none;
+        }
+
+        form button:hover {
+            background-color: #25274d;
+        }
+
+        .download-link,
+        .host-link {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="aboutForm">
+        <label for="profileImage">Profile Image URL:</label>
+        <input type="text" id="profileImage" name="profileImage" required>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="role">Role:</label>
+        <input type="text" id="role" name="role" required>
+
+        <label for="tagline">Tagline:</label>
+        <input type="text" id="tagline" name="tagline" required>
+
+        <label for="bio">Bio:</label>
+        <textarea id="bio" name="bio" rows="4" required></textarea>
+
+        <label for="linkedin">LinkedIn:</label>
+        <input type="text" id="linkedin" name="linkedin">
+
+        <label for="instagram">Instagram:</label>
+        <input type="text" id="instagram" name="instagram">
+
+        <label for="github">GitHub:</label>
+        <input type="text" id="github" name="github">
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <button type="button" onclick="generateAboutPage()">Generate About Page</button>
+
+        <div id="resultContainer" class="container" style="display:none;"></div>
+
+        <a id="downloadLink" class="download-link" download="about_page.html"></a>
+        <a id="hostLink" class="host-link" target="_blank"></a>
+    </form>
+
+    <script>
+        function generateAboutPage() {
+            // Get values from the form
+            const profileImage = document.getElementById('profileImage').value;
+            const name = document.getElementById('name').value;
+            const role = document.getElementById('role').value;
+            const tagline = document.getElementById('tagline').value;
+            const bio = document.getElementById('bio').value;
+            const linkedin = document.getElementById('linkedin').value;
+            const instagram = document.getElementById('instagram').value;
+            const github = document.getElementById('github').value;
+            const email = document.getElementById('email').value;
+
+            // Create the about page HTML with styles
+            const aboutPage = `
+                <!DOCTYPE html>
+                <html lang="en">
+
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>${name}</title>
+                    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap">
+                    <style>
+                        body {
+                            font-family: 'Poppins', sans-serif;
+                            background-image: url('https://images.unsplash.com/photo-1560807707-8cc77767d783');
+                            background-size: cover;
+                            background-position: center;
+                            margin: 0;
+                            padding: 0;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            min-height: 100vh;
+                        }
+
+                        /* ... (all other existing styles) ... */
+                    </style>
+                </head>
+
+                <body>
+                    <div class="container">
+                        <img src="${profileImage}" alt="${name}">
+                        <div class="content">
+                            <h1>${name}</h1>
+                            <span class="highlight">${role} | ${tagline}</span>
+                            <span>${bio}</span>
+                            <div class="social-icons">
+                                ${linkedin && `<a href="${linkedin}" target="_blank">LinkedIn</a>`}
+                                ${instagram && `<a href="${instagram}" target="_blank">Instagram</a>`}
+                                ${github && `<a href="${github}" target="_blank">GitHub</a>`}
+                            </div>
+                            <div class="contact-me">
+                                <button onclick="window.location.href='mailto:${email}';">Say hi</button>
+                            </div>
+                        </div>
+                    </div>
+                </body>
+
+                </html>
+            `;
+
+            // Create a Blob containing the HTML content
+            const blob = new Blob([aboutPage], { type: 'text/html' });
+
+            // Create a link to download the Blob
+            const downloadLink = document.getElementById('downloadLink');
+            downloadLink.href = URL.createObjectURL(blob);
+            downloadLink.download = 'about_page.html';
+
+            // Display the result
+            const resultContainer = document.getElementById('resultContainer');
+            resultContainer.innerHTML = aboutPage;
+            resultContainer.style.display = 'block';
+
+            // Enable the download link
+            downloadLink.style.display = 'block';
+
+            // Enable the host link
+            const hostLink = document.getElementById('hostLink');
+            hostLink.href = 'data:text/html;charset=utf-8,' + encodeURIComponent(aboutPage);
+            hostLink.innerText = 'View Generated Page';
+            hostLink.style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>
